@@ -5,9 +5,10 @@ internal class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Starting Simulator!\n");
+        Lab3a();
     }
 
-    /*
+    
     static void Lab3a()
     {
         Creature c = new() { Name = "   Shrek    ", Level = 20 };
@@ -32,7 +33,7 @@ internal class Program
 
         c = new("a                            troll name", 5);
         c.SayHi();
-        c.Upgrade();
+        c.Upgrade();    
         Console.WriteLine(c.Info);
 
         var a = new Animals() { Description = "   Cats " };
@@ -41,7 +42,7 @@ internal class Program
         a = new() { Description = "Mice           are great", Size = 40 };
         Console.WriteLine(a.Info);
     }
-    */
+    
     /*
     static void Lab3b()
     {
