@@ -11,9 +11,9 @@ public class Creature
 
     private string name = "Unknown";
     public string Name
-    { 
+    {
         get => name;
-        init 
+        init
         {
             value = value.Trim();
             if (value.Length > 25)
@@ -30,8 +30,8 @@ public class Creature
         }
     }
     private int level = 1;
-    public int Level 
-    { 
+    public int Level
+    {
         get => level;
         init
         {
@@ -53,7 +53,16 @@ public class Creature
     public void SayHi() =>
         Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
 
-    public void Upgrade() => 
+    public void Upgrade() =>
         level = level < 10 ? level + 1 : level;
-        
+
+    public void Go(Direction direction) =>
+        Console.WriteLine($"{Name}[{Level}] goes {direction.ToString().ToLower()}.");
+
+    public void Go(Direction[] directions)
+        { foreach (var direction in directions) Go(direction); }
+
+    public void Go(string directionsToString) =>
+        Go(DirectionParser.Parse(directionsToString)); 
+
 }

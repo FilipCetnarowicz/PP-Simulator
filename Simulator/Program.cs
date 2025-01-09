@@ -6,6 +6,7 @@ internal class Program
     {
         Console.WriteLine("Starting Simulator!\n");
         Lab3a();
+        Lab3b();
     }
 
     
@@ -43,7 +44,6 @@ internal class Program
         Console.WriteLine(a.Info);
     }
     
-    /*
     static void Lab3b()
     {
         Creature c = new("Shrek", 7);
@@ -64,6 +64,5 @@ internal class Program
         Console.WriteLine("\n* xxxdR lyyLTyu");
         c.Go("xxxdR lyyLTyu");
     }
-    */
 }
 
