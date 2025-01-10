@@ -14,15 +14,12 @@ public class Elf : Creature
     public int Agility
     {
         get => agility;
-        init
-        {
-            if (value < 0) { agility = 0; }
-            else if (value > 10) { agility = 10; }
-            else { agility = value; }
-        }
+        init => agility = Validator.Limiter(value, 0, 10);
     }
     public override int Power
         { get { return 8 * Level + 2 * Agility; } }
+    public override string Info
+    { get { return $"{Name} [{Level}][{Agility}]"; } }
 
     // constructors
     public Elf() : base() { }
@@ -37,7 +34,7 @@ public class Elf : Creature
         if (singCounter % 3 == 0)
         { 
             if  (agility < 10) agility++; 
-            Console.WriteLine($"{Name}[{Level}] increased his agility to <{Agility}> by singing");
+            Console.WriteLine($"{Name}[{Level}] increased his agility to {Agility} by singing");
         }
 
     }

@@ -14,15 +14,12 @@ public class Orc : Creature
     public int Rage
     {
         get => rage;
-        init
-        {
-            if (value < 0) { rage = 0; }
-            else if (value > 10) { rage = 10; }
-            else { rage = value; }
-        }
+        init => rage = Validator.Limiter(value, 0, 10);
     }
     public override int Power
         { get { return 7 * Level + 3 * Rage; } }
+    public override string Info
+        { get { return $"{Name} [{Level}][{Rage}]"; } }
 
     // constructors
     public Orc() : base() { }
@@ -37,12 +34,13 @@ public class Orc : Creature
         if (huntCounter % 2 == 0)
         { 
             if  (rage < 10) rage++; 
-            Console.WriteLine($"{Name}[{Level}] increased his rage to <{rage}> by hunting");
+            Console.WriteLine($"{Name}[{Level}] increased his rage to {rage} by hunting");
         }
 
     }
     public override void SayHi() =>
         Console.WriteLine($"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}");
-
+    
+    
     
 }

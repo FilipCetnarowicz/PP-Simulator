@@ -13,36 +13,18 @@ public abstract class Creature
     public string Name
     {
         get => name;
-        init
-        {
-            value = value.Trim();
-            if (value.Length > 25)
-            {
-                value = value.Substring(0, 25);
-                value = value.Trim();
-            }
-            if (value.Length < 3) value = value.PadRight(3, '#');
-            if (char.IsLower(value[0]))
-            {
-                value = char.ToUpper(value[0]) + value.Substring(1);
-            }
-            name = value;
-        }
+        init => name = Validator.Shortener(value, 3, 25, '#');
     }
     private int level = 1;
     public int Level
     {
         get => level;
-        init
-        { 
-            level = value < 1 ? 1 : value;
-            level = level > 10 ? 10 : level;
-        }
+        init => level = Validator.Limiter(value, 1, 10);
     }
     
     public abstract int Power { get; }
 
-    public string Info => $"{Name}, [{Level}]";
+    public abstract string Info { get; }
 
     // constructors
     public Creature(string name, int level = 1)
@@ -60,11 +42,13 @@ public abstract class Creature
 
     public void Go(Direction direction) =>
         Console.WriteLine($"{Name}[{Level}] goes {direction.ToString().ToLower()}.");
-
     public void Go(Direction[] directions)
         { foreach (var direction in directions) Go(direction); }
-
     public void Go(string directionsToString) =>
-        Go(DirectionParser.Parse(directionsToString)); 
+        Go(DirectionParser.Parse(directionsToString));
+
+    public override string ToString()
+        { return $"{GetType().Name.ToUpper()}: {Info}"; }
+
 
 }
