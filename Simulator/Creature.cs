@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Simulator;
-public class Creature
+public abstract class Creature
 {
     // fields
 
@@ -34,11 +34,14 @@ public class Creature
     {
         get => level;
         init
-        {
+        { 
             level = value < 1 ? 1 : value;
             level = level > 10 ? 10 : level;
         }
     }
+    
+    public abstract int Power { get; }
+
     public string Info => $"{Name}, [{Level}]";
 
     // constructors
@@ -50,8 +53,7 @@ public class Creature
     public Creature() { }
 
     //methods
-    public void SayHi() =>
-        Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
+    public abstract void SayHi();
 
     public void Upgrade() =>
         level = level < 10 ? level + 1 : level;
