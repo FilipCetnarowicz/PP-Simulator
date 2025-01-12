@@ -1,36 +1,54 @@
-﻿namespace Simulator;
+﻿using System.Security.Cryptography;
+
+namespace Simulator;
 
 internal class Program
 {
     static void Main(string[] args)
     {
         Console.WriteLine("Starting Simulator!\n");
-        //Lab3a();
-        //Lab3b();
-        //Lab4a();
-        //Creature c = new Elf("Elandor", 5, 3);
-        //Console.WriteLine(c);  // ELF: Elandor [5][3]
-        Lab4b();
+        
+        Point p = new(10, 25);
+        Console.WriteLine(p.Next(Direction.Right));          // (11, 25)
+        Console.WriteLine(p.NextDiagonal(Direction.Right));  // (11, 24)
 
+        Lab5a();
     }
-    static void Lab4b()
+    static void Lab5a()
     {
-        object[] myObjects = {
-        new Animals() { Description = "dogs"},
-        new Birds { Description = "  eagles ", Size = 10 },
-        new Elf("e", 15, -3),
-        new Orc("morgash", 6, 4)
-    };
-        Console.WriteLine("\nMy objects:");
-        foreach (var o in myObjects) Console.WriteLine(o);
-        /*
-            My objects:
-            ANIMALS: Dogs <3>
-            BIRDS: Eagles (fly+) <10>
-            ELF: E## [10][0]
-            ORC: Morgash [6][4]
-        */
+        //towrzenie z luznych wspolrzednych
+        var r1 = new Rectangle(11, 1, 1, 11);
+        Console.WriteLine($"r1: {r1}");
+        Console.WriteLine(r1.Contains(new Point(5,5)));
+
+        //tworzenie z punktow
+        var r2 = new Rectangle(new Point(1, 1), new Point(11, 11));
+        Console.WriteLine($"r2: {r2}");
+        Console.WriteLine(r2.Contains(new Point(5,5)));
+
+        //wyjatek
+        try { var r3 = new Rectangle(1, 11, 1, 11); }
+        catch (Exception ex) { Console.WriteLine($"exception: {ex.Message}"); }
     }
+
+    //static void Lab4b()
+    //{
+    //    object[] myObjects = {
+    //    new Animals() { Description = "dogs"},
+    //    new Birds { Description = "  eagles ", Size = 10 },
+    //    new Elf("e", 15, -3),
+    //    new Orc("morgash", 6, 4)
+    //};
+    //    Console.WriteLine("\nMy objects:");
+    //    foreach (var o in myObjects) Console.WriteLine(o);
+    //    /*
+    //        My objects:
+    //        ANIMALS: Dogs <3>
+    //        BIRDS: Eagles (fly+) <10>
+    //        ELF: E## [10][0]
+    //        ORC: Morgash [6][4]
+    //    */
+    //}
 
     //static void Lab4a()
     //{
