@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Simulator.Maps;
+using System.Security.Cryptography;
 
 namespace Simulator;
 
@@ -7,29 +8,53 @@ internal class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Starting Simulator!\n");
-        
-        Point p = new(10, 25);
-        Console.WriteLine(p.Next(Direction.Right));          // (11, 25)
-        Console.WriteLine(p.NextDiagonal(Direction.Right));  // (11, 24)
-
-        Lab5a();
+        Lab5b();
     }
-    static void Lab5a()
+
+    static void Lab5b()
     {
-        //towrzenie z luznych wspolrzednych
-        var r1 = new Rectangle(11, 1, 1, 11);
-        Console.WriteLine($"r1: {r1}");
-        Console.WriteLine(r1.Contains(new Point(5,5)));
+        var SmallMapExample1 = new SmallSquareMap(5);
+        var p1 = new Point(0, 0);
+        var p2 = new Point(3, 3);
+        var p3 = new Point(5, 5);
+        
+        p1 = SmallMapExample1.NextDiagonal(p1,Direction.Down);
+        Console.WriteLine(p1);
+        p2 = SmallMapExample1.Next(p2,Direction.Right);
+        Console.WriteLine(p2);
+        p3 = SmallMapExample1.Next(p3, Direction.Up);
+        Console.WriteLine(p3);
 
-        //tworzenie z punktow
-        var r2 = new Rectangle(new Point(1, 1), new Point(11, 11));
-        Console.WriteLine($"r2: {r2}");
-        Console.WriteLine(r2.Contains(new Point(5,5)));
+        try { var SmallMapExample2 = new SmallSquareMap(4); }
+        catch (ArgumentOutOfRangeException ex) 
+            { Console.WriteLine($"Error in SmallMapExample2: {ex.Message}"); }
 
-        //wyjatek
-        try { var r3 = new Rectangle(1, 11, 1, 11); }
-        catch (Exception ex) { Console.WriteLine($"exception: {ex.Message}"); }
+        try { var SmallMapExample3 = new SmallSquareMap(21); }
+        catch (ArgumentOutOfRangeException ex)
+            { Console.WriteLine($"Error in SmallMapExample3: {ex.Message}"); }
     }
+    //static void Lab5a()
+    //{
+    //    Point p = new(10, 25);
+    //    Console.WriteLine(p.Next(Direction.Right));          // (11, 25)
+    //    Console.WriteLine(p.NextDiagonal(Direction.Right));  // (11, 24)
+
+    //    Lab5a();
+
+    //    //towrzenie z luznych wspolrzednych
+    //    var r1 = new Rectangle(11, 1, 1, 11);
+    //    Console.WriteLine($"r1: {r1}");
+    //    Console.WriteLine(r1.Contains(new Point(5, 5)));
+
+    //    //tworzenie z punktow
+    //    var r2 = new Rectangle(new Point(1, 1), new Point(11, 11));
+    //    Console.WriteLine($"r2: {r2}");
+    //    Console.WriteLine(r2.Contains(new Point(5, 5)));
+
+    //    //wyjatek
+    //    try { var r3 = new Rectangle(1, 11, 1, 11); }
+    //    catch (Exception ex) { Console.WriteLine($"exception: {ex.Message}"); }
+    //}
 
     //static void Lab4b()
     //{
