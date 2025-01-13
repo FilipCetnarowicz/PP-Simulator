@@ -22,6 +22,5 @@ public static class Validator
         if (value.Length < min) value = value.PadRight(min, placeholder);
         if (char.IsLower(value[0])) value = char.ToUpper(value[0]) + value.Substring(1);
         return value;
-
     }
 }
