@@ -42,7 +42,7 @@ public abstract class Creature
 
     public string Go(Direction direction) =>
         $"{Name}[{Level}] goes {direction.ToString().ToLower()}.";
-    public string[] Go(Direction[] directions) =>
+    public string[] Go(List<Direction> directions) =>
         directions.Select(Go).ToArray();
     public string[] Go(string directionsToString) =>
         Go(DirectionParser.Parse(directionsToString));

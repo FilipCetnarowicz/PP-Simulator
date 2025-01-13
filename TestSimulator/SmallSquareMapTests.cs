@@ -37,7 +37,6 @@ public class SmallSquareMapTests
         Assert.Equal(expected, result);
     }
 
-
     [Theory]
     [InlineData(5, 4, 4, Direction.Up, 4, 4)]
     [InlineData(5, 3, 3, Direction.Up, 4, 4)]
@@ -50,8 +49,4 @@ public class SmallSquareMapTests
         Assert.Equal(expected, result);
     }
 
-    //public void NextDiagonal_ShouldReturnValidPoint()
-    //{
-
-    //}
 }
