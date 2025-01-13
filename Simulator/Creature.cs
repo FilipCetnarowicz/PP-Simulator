@@ -35,16 +35,16 @@ public abstract class Creature
     public Creature() { }
 
     //methods
-    public abstract void SayHi();
+    public abstract string Greeting();
 
     public void Upgrade() =>
         level = level < 10 ? level + 1 : level;
 
-    public void Go(Direction direction) =>
-        Console.WriteLine($"{Name}[{Level}] goes {direction.ToString().ToLower()}.");
-    public void Go(Direction[] directions)
-        { foreach (var direction in directions) Go(direction); }
-    public void Go(string directionsToString) =>
+    public string Go(Direction direction) =>
+        $"{Name}[{Level}] goes {direction.ToString().ToLower()}.";
+    public string[] Go(Direction[] directions) =>
+        directions.Select(Go).ToArray();
+    public string[] Go(string directionsToString) =>
         Go(DirectionParser.Parse(directionsToString));
 
     public override string ToString()

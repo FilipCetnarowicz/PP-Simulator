@@ -29,17 +29,12 @@ public class Elf : Creature
     // methods
     public void Sing()
     {
-        Console.WriteLine($"{Name} is singing.");
         singCounter++;
         if (singCounter % 3 == 0)
-        { 
-            if  (agility < 10) agility++; 
-            Console.WriteLine($"{Name}[{Level}] increased his agility to {Agility} by singing");
-        }
-
+            { if  (agility < 10) agility++; }
     }
-    public override void SayHi() =>
-        Console.WriteLine($"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}");
+    public override string Greeting() => 
+        $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}";
 
     
 }

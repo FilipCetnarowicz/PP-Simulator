@@ -10,7 +10,6 @@ public class Rectangle
     // fields
     public int X1 { get; }
     public int Y1 { get; }
-
     public int X2 { get; }
     public int Y2 { get; }
 
