@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Simulator.Maps;
-public class SmallSquareMap : Map
+public class SmallTorusMap : Map
 {
     // fields
     public int Size { get; init; }
     public Rectangle MapArea { get; init; }
 
     // constructors
-    public SmallSquareMap(int size) 
-    { 
-        if (size < 5 || size > 20) 
+    public SmallTorusMap(int size)
+    {
+        if (size < 5 || size > 20)
             throw new ArgumentOutOfRangeException("size of Small Map must be between 5 and 20");
         Size = size;
         MapArea = new Rectangle(0, 0, Size - 1, Size - 1);
@@ -27,13 +28,17 @@ public class SmallSquareMap : Map
     public override Point Next(Point p, Direction d)
     {
         if (MapArea.Contains(p.Next(d))) return p.Next(d);
-        else return p;
+        int newX = (p.Next(d).X + Size) % Size;
+        int newY = (p.Next(d).Y + Size) % Size;
+        return new Point(newX, newY);
     }
 
     public override Point NextDiagonal(Point p, Direction d)
     {
         if (MapArea.Contains(p.NextDiagonal(d))) return p.NextDiagonal(d);
-        else return p;
+        int newX = (p.NextDiagonal(d).X + Size) % Size;
+        int newY = (p.NextDiagonal(d).Y + Size) % Size;
+        return new Point(newX, newY);
     }
 
 
