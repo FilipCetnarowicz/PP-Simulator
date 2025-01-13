@@ -9,6 +9,5 @@ internal class Program
     {
         Console.WriteLine("Starting Simulator!\n");
     }
-
 }
 
