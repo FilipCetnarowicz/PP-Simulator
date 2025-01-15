@@ -58,7 +58,7 @@ public class Simulation
     /// if number of creatures differs from 
     /// number of starting positions.
     /// </summary>
-    public Simulation(SmallMap map, List<Creature> creatures,
+    public Simulation(SmallTorusMap map, List<Creature> creatures,
         List<Point> positions, string moves)
     {
         if (map == null || creatures == null || positions == null)
@@ -91,13 +91,14 @@ public class Simulation
             throw new InvalidOperationException("Simulation is finished.");
 
         if ("rldu".Contains(CurrentMoveName))
+        {
             CurrentCreature.Go(DirectionParser.Parse(CurrentMoveName)[0]);
-
-        if (SimulationIndex == Moves.Length - 1)
-            Finished = true;
+        }
 
         SimulationIndex++;
 
-        
+        if (SimulationIndex == Moves.Length) Finished = true;
+
+
     }
 }

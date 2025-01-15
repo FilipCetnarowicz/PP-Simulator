@@ -52,14 +52,15 @@ public abstract class Creature
         CurrentPosition = newPosition;
     }
 
-    public void AssignToMap(SmallMap map, Point position)
+    public void AssignToMap(SmallTorusMap map, Point position)
     {
         if (CurrentMap != null) throw new InvalidOperationException("Creature is already assigned to map.");
         CurrentMap = map;
         CurrentPosition = position;
         map.Add(this, position);
     }
-    public void AssignToMap(SmallMap map, int x, int y)
+
+    public void AssignToMap(SmallTorusMap map, int x, int y)
         { AssignToMap(map, new Point(x, y)); }
 
     public override string ToString()
