@@ -1,58 +1,55 @@
-﻿namespace Simulator.Maps;
+namespace Simulator.Maps;
+
 public abstract class SmallMap : Map
 {
-    public Dictionary<Point, List<Creature>> Participants = new();
+    public const int MaxMapSize = 20;
+    public List<IMappable>[,] MapFields;
     public SmallMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
-        if (sizeX > 20 || sizeY > 20)
-            { throw new ArgumentOutOfRangeException("maximum size - 20x20"); }
+        if (sizeX > MaxMapSize)
+            throw new ArgumentOutOfRangeException(nameof(sizeX), "SmallSquareMap() only accepts size from 5 to 20!");
+        if (sizeY > MaxMapSize)
+            throw new ArgumentOutOfRangeException(nameof(sizeY), "SmallSquareMap() only accepts size from 5 to 20!");
+
+        MapFields = new List<IMappable>[SizeX, SizeY];
+        for (int i = 0; i < SizeY; i++)
+        {
+            for (int j = 0; j < SizeX; j++)
+            {
+                MapFields[j, i] = new List<IMappable>();
+            }
+        }
     }
 
-    public void Add(Creature creature, Point position)
+    public override void Add(IMappable mappable, Point point)
     {
-        if (!this.Exist(position)) 
-            throw new ArgumentOutOfRangeException("Invalid point. Check map size");
-        if (!Participants.ContainsKey(position))
-            Participants[position] = new List<Creature>();
-        Participants[position].Add(creature);
+        MapFields[point.X, point.Y].Add(mappable);
     }
-
-    public void Remove(Creature creature, Point position)
+    public override void Remove(IMappable mappable, Point point)
     {
-        if (!this.Exist(position))
-            throw new ArgumentOutOfRangeException("Invalid point. Check map size");
-        if (!Participants.ContainsKey(position) || !Participants[position].Contains(creature)) 
-            throw new ArgumentException("Your creature is elsewhere.");
-        Participants[position].Remove(creature);
-        if (Participants[position].Count == 0)
-            Participants.Remove(position);
+        MapFields[point.X, point.Y].Remove(mappable);
     }
-
-    public void Move(Creature creature, Point newPosition)
+    public override List<IMappable> At(Point point)
     {
-        if (!this.Exist(newPosition))
-            throw new ArgumentOutOfRangeException("Invalid point. Check map size");
-        if (creature.CurrentPosition == null)
-            throw new ArgumentException("This participant isn't on the map. Place him first.");
-        var currentPosition = creature.CurrentPosition.Value;
-        Participants[currentPosition].Remove(creature);
-        if (Participants[currentPosition].Count==0)
-            Participants.Remove(currentPosition);
-        if (!Participants.ContainsKey(newPosition))
-            Participants[newPosition] = new List<Creature>();
-        Participants[newPosition].Add(creature);
+        return MapFields[point.X, point.Y];
     }
-
-    public List<Creature> At(Point position)
+    public override List<IMappable> At(int x, int y)
     {
-        if (!this.Exist(position)) 
-            throw new ArgumentOutOfRangeException("Invalid point. Check map size.");
-        if (!Participants.ContainsKey(position))
-            throw new ArgumentException("There is no participant on this position.");
-        return new List<Creature>(Participants[position]);
+        return MapFields[x, y];
     }
 
-    public List<Creature> At(int x, int y)
-        { return At(new Point(x,y)); }
+    /* public override bool Exist(Point p)
+    {
+        return mapRectangle.Contains(p);
+    } */
 
+    /* public override Point Next(Point p, Direction d)
+    {
+        throw new NotImplementedException();
+    } */
+
+    /* public override Point NextDiagonal(Point p, Direction d)
+    {
+        throw new NotImplementedException();
+    } */
 }

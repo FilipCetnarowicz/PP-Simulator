@@ -1,42 +1,72 @@
-﻿using Simulator;
+using Simulator;
 using Simulator.Maps;
 
 namespace TestSimulator;
+
 public class RectangleTests
 {
-    [Theory]
-    [InlineData(1,1,3,3,5,5,false)]
-    [InlineData(1,1,3,3,2,2,true)]
-    [InlineData(1,1,3,3,3,3,true)]
-    public void Contains_ShouldReturnValidLogic(int rectangleX1, int rectangleY1, int rectangleX2, int rectangleY2, int pointX1, int pointY1, bool expected)
-    {
-        // arrange
-        var rectangleP1 = new Point(rectangleX1, rectangleY1);
-        var rectangleP2 = new Point(rectangleX2, rectangleY2);
-        var r1 = new Rectangle(rectangleP1,rectangleP2);
-        var p1 = new Point(pointX1, pointY1);
-        // act
-        var result = r1.Contains(p1);
-        // assert
-        Assert.Equal(expected, result);
-    }
-
     [Fact]
-    public void Constructor_ShouldThrowCollinear()
-        { Assert.Throws<ArgumentException>(() => new Rectangle(1, 10, 1, 20)); }
+    public void Constructor_PointsGiven_CreatesRectangleCorrectly()
+    {
+        Point p1 = new Point(0, 0);
+        Point p2 = new Point(10, 10);
+        Rectangle rec = new Rectangle(p1, p2);
+        Assert.Equal((0, 0, 10, 10), (rec.X1, rec.Y1, rec.X2, rec.Y2));
+    }
 
     [Theory]
-    [InlineData(5, 5, 1, 1, 1, 1, 5, 5)]
-    [InlineData(1, 1, 5, 5, 1, 1, 5, 5)]
-    public void Constructor_ValidSwapping(int inX1,int inY1, int inX2, int inY2, int outX1, int outY1, int outX2, int outY2)
+    [InlineData(0, 0, 10, 10, 0, 0, 10, 10)]
+    [InlineData(5, 2, 6, 7, 5, 2, 6, 7)]
+    [InlineData(1, 2, 3, 4, 1, 2, 3, 4)]
+    public void Constructor_PerfectCoordinates_CreatesRectangleCorrectly(int x1, int y1, int x2, int y2, int ex1, int ey1, int ex2, int ey2)
     {
-        // arrange
-        var p1 = new Point(inX1, inY1);
-        var p2 = new Point(inX2, inY2);
-        var expected = new Rectangle(p1, p2).ToString();
-        // act
-        var result = new Rectangle(inX1, inY1, inX2, inY2).ToString();
-        // assert
-        Assert.Equal(expected, result);
+        Rectangle rec = new Rectangle(x1, y1, x2, y2);
+        Assert.Equal((ex1, ey1, ex2, ey2), (rec.X1, rec.Y1, rec.X2, rec.Y2));
     }
+
+    [Theory]
+    [InlineData(7, 2, 3, 5, 3, 2, 7, 5)]
+    [InlineData(2, 6, 7, 2, 2, 2, 7, 6)]
+    [InlineData(7, 7, 2, 2, 2, 2, 7, 7)]
+    public void Constructor_MisplacedCoordinates_SwitchesCoordinates(int x1, int y1, int x2, int y2, int ex1, int ey1, int ex2, int ey2)
+    {
+        Rectangle rec = new Rectangle(x1, y1, x2, y2);
+        Assert.Equal((ex1, ey1, ex2, ey2), (rec.X1, rec.Y1, rec.X2, rec.Y2));
+    }
+
+    [Theory]
+    [InlineData(2, 5, 5, 5)]
+    [InlineData(0, 0, 0, 0)]
+    [InlineData(6, 5, 3, 5)]
+    public void Constructor_ThinRectangle_ThrowsArgumentException(int x1, int y1, int x2, int y2)
+    {
+        Assert.Throws<ArgumentException>(() => new Rectangle(x1, y1, x2, y2));
+    }
+
+    [Theory]
+    [InlineData(-10, -10, true)]
+    [InlineData(10, -10, true)]
+    [InlineData(-10, 10, true)]
+    [InlineData(10, 10, true)]
+    [InlineData(0, 0, true)]
+    [InlineData(50, 30, false)]
+    [InlineData(-50, -30, false)]
+    public void Contains_ShouldReturnCorrectValue(int x, int y, bool value)
+    {
+        Rectangle rec = new Rectangle(-10, -10, 10, 10);
+        Point p = new Point(x, y);
+        Assert.Equal(value, rec.Contains(p));
+    }
+
+    [Theory]
+    [InlineData(0, 0, 10, 10, "(0, 0):(10, 10)")]
+    [InlineData(5, -5, 12, 6, "(5, -5):(12, 6)")]
+    [InlineData(5, 5, 2, 2, "(2, 2):(5, 5)")]
+    public void ToString_WorksCorrectly(int x1, int y1, int x2, int y2, string s)
+    {
+        Rectangle rec = new Rectangle(x1, y1, x2, y2);
+        Assert.Equal(s, rec.ToString());
+    }
+
+
 }

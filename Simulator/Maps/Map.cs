@@ -1,26 +1,45 @@
 namespace Simulator.Maps;
 
+/// <summary>
+/// Map of points.
+/// </summary>
 public abstract class Map
 {
+    public const int MinMapSize = 5;
     public int SizeX { get; init; }
     public int SizeY { get; init; }
-    public Rectangle MapArea { get; init; }
-
+    public readonly Rectangle mapRectangle;
     public Map(int sizeX, int sizeY)
     {
-        if (sizeX < 5 || sizeY <5 )
-            throw new ArgumentOutOfRangeException("minimum size - 5x5");
+        if (sizeX < MinMapSize)
+            throw new ArgumentOutOfRangeException(nameof(sizeX), "SmallSquareMap() only accepts size from 5 to 20!");
+        if (sizeY < MinMapSize)
+            throw new ArgumentOutOfRangeException(nameof(sizeY), "SmallSquareMap() only accepts size from 5 to 20!");
+
         SizeX = sizeX;
         SizeY = sizeY;
-        MapArea = new Rectangle(0, 0, sizeX - 1, sizeY - 1);
+        mapRectangle = new Rectangle(new Point(0, 0), new Point(SizeX - 1, SizeY - 1));
     }
+
+    public abstract void Add(IMappable mappable, Point point);
+    public abstract void Remove(IMappable mappable, Point point);
+    public void Move(IMappable mappable, Point from, Point to)
+    {
+        Remove(mappable, from);
+        Add(mappable, to);
+    }
+    public abstract List<IMappable> At(Point point);
+    public abstract List<IMappable> At(int x, int y);
+
     /// <summary>
     /// Check if give point belongs to the map.
     /// </summary>
     /// <param name="p">Point to check.</param>
     /// <returns></returns>
-    public bool Exist(Point p)
-        { return MapArea.Contains(p); }
+    public virtual bool Exist(Point p)
+    {
+        return mapRectangle.Contains(p);
+    }
 
     /// <summary>
     /// Next position to the point in a given direction.

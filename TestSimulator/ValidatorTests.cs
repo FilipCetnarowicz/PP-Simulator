@@ -1,41 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Simulator;
 using Simulator.Maps;
 
 namespace TestSimulator;
+
 public class ValidatorTests
 {
     [Theory]
-    [InlineData(0, 1, 10, 1)]
-    [InlineData(1, 1, 10, 1)]
-    [InlineData(2, 1, 10, 2)]
-    [InlineData(9,1,10,9)]
-    [InlineData(10,1,10,10)]
-    [InlineData(11,1,10,10)]
-    public void Limiter_ShouldReturnCorrectInt(int value, int min, int max, int expected)
+    [InlineData(5, 0, 10, 5)]
+    [InlineData(0, 0, 10, 0)]
+    [InlineData(10, 0, 10, 10)]
+    [InlineData(-2, -10, 10, -2)]
+    public void Limiter_ValuesInRange_PassesValues(int value, int min, int max, int expected)
     {
-        // act
-        var result = Validator.Limiter(value, min, max);
-        // assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, Validator.Limiter(value, min, max));
     }
 
     [Theory]
-    // padding
-    [InlineData("testtesttest   ",3,10,'#',"Testtestte")]
-    [InlineData("   t   ",3,10,'#', "T##")]
-    [InlineData("   test",3,10,'#', "Test")]
-    public void Shoretener_ShouldReturnCorrectString(string value, int min, int max, char placeholder, string expected)
+    [InlineData(-1, 0, 10, 0)]
+    [InlineData(12, 0, 10, 10)]
+    [InlineData(-234, -30, 10, -30)]
+    [InlineData(16, 2, 7, 7)]
+    public void Limiter_ValuesOutsideOfRange_LimitsValues(int value, int min, int max, int expected)
     {
-        // act
-        var result = Validator.Shortener(value, min, max, placeholder);
-        // assert
-        Assert.Equal(expected, result);
+        Assert.Equal(expected, Validator.Limiter(value, min, max));
     }
 
+    [Theory]
+    [InlineData("   Shrek    ", "Shrek")]
+    [InlineData("   ", "Unknown")]
+    [InlineData("  donkey  ", "Donkey")]
+    [InlineData("Puss in Boots a clever and brave cat.", "Puss in Boots a")]
+    [InlineData("A                     gfdgdfg.", "A##")]
+    [InlineData("", "Unknown")]
+    [InlineData("a", "A##")]
+    [InlineData("ab", "Ab#")]
+    [InlineData("abc", "Abc")]
+    public void Shortener_ShouldCorrect(string input, string expected)
+    {
+        Assert.Equal(expected, Validator.Shortener(input, 3, 15, '#'));
+    }
 }

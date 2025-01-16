@@ -1,23 +1,41 @@
-﻿namespace Simulator.Maps;
+namespace Simulator.Maps;
+
 public class SmallSquareMap : SmallMap
 {
-    // fields
-                
-    // constructors
+    //private const int MinMapSize = 5;
+    //private const int MaxMapSize = 20;
+    //public readonly int Size;
+    //private Rectangle mapRectangle;
 
-    public SmallSquareMap(int size) : base(size, size) { }
+    public SmallSquareMap(int size) : base(size, size)
+    {
+        /*if (size < MinMapSize || size > MaxMapSize)
+            throw new ArgumentOutOfRangeException(nameof(size), "SmallSquareMap() only accepts size from 5 to 20!");
+        else
+        {
+            Size = size;
+            mapRectangle = new Rectangle(new Point(0, 0), new Point(Size - 1, Size - 1));
+        }*/
+    }
 
-    // methods
+    /*public override bool Exist(Point p)
+    {
+        return mapRectangle.Contains(p);
+    }*/
 
     public override Point Next(Point p, Direction d)
     {
-        if (MapArea.Contains(p.Next(d))) return p.Next(d);
-        else return p;
+        if (mapRectangle.Contains(p.Next(d)))
+            return p.Next(d);
+        else
+            return p;
     }
 
     public override Point NextDiagonal(Point p, Direction d)
     {
-        if (MapArea.Contains(p.NextDiagonal(d))) return p.NextDiagonal(d);
-        else return p;
+        if (mapRectangle.Contains(p.NextDiagonal(d)))
+            return p.NextDiagonal(d);
+        else
+            return p;
     }
 }

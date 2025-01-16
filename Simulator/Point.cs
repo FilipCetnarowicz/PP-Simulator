@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Simulator;
+
 public readonly struct Point
 {
     public readonly int X, Y;
@@ -13,20 +8,30 @@ public readonly struct Point
 
     public Point Next(Direction direction)
     {
-        if (direction == Direction.Left)    return new Point(X - 1, Y);
-        if (direction == Direction.Right)   return new Point(X + 1, Y);
-        if (direction == Direction.Up)      return new Point(X, Y + 1);
-        if (direction == Direction.Down)    return new Point(X, Y - 1);
-        return new Point(X,Y);
+        if (direction == Direction.Up)
+            return new Point(X, Y + 1);
+        else if (direction == Direction.Down)
+            return new Point(X, Y - 1);
+        else if (direction == Direction.Right)
+            return new Point(X + 1, Y);
+        else if (direction == Direction.Left)
+            return new Point(X - 1, Y);
+        else    //just in case
+            return new Point(X, Y);
     }
 
     // rotate given direction 45 degrees clockwise
     public Point NextDiagonal(Direction direction)
     {
-        if (direction == Direction.Left)    return new Point(X - 1, Y + 1);
-        if (direction == Direction.Right)   return new Point(X + 1, Y - 1);
-        if (direction == Direction.Up)      return new Point(X + 1, Y + 1);
-        if (direction == Direction.Down)    return new Point(X - 1, Y - 1);
-        return new Point(X,Y);
-    }   
+        if (direction == Direction.Up)
+            return new Point(X + 1, Y + 1); // ↗ 
+        else if (direction == Direction.Down)
+            return new Point(X - 1, Y - 1); // ↙
+        else if (direction == Direction.Right)
+            return new Point(X + 1, Y - 1); // ↘
+        else if (direction == Direction.Left)
+            return new Point(X - 1, Y + 1); // ↖
+        else    //just in case
+            return new Point(X, Y);
+    }
 }

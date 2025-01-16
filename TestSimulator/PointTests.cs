@@ -1,45 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Simulator;
 using Simulator.Maps;
 
 namespace TestSimulator;
+
 public class PointTests
 {
     [Theory]
-    [InlineData(1,1,Direction.Up,1,2)]
-    [InlineData(1,1,Direction.Right,2,1)]
-    [InlineData(1,1,Direction.Down,1,0)]
-    [InlineData(1,1,Direction.Left,0,1)]
-    public void Next_ShouldReturnValidPoint(int startingX, int startingY, Direction direction, int expectedX, int expectedY)
+    [InlineData(0, 0, 0, 0)]
+    [InlineData(-10, -10, -10, -10)]
+    [InlineData(25, 25, 25, 25)]
+    [InlineData(6, 5, 6, 5)]
+    [InlineData(3, 54, 3, 54)]
+    [InlineData(19, -5, 19, -5)]
+    public void Constructor_CreatesPointCorrectly(int x, int y, int expectedX, int expectedY)
     {
-        // arrange
-        var expected = new Point(expectedX, expectedY).ToString();
-        var p1 = new Point(startingX, startingY);
-        // act
-        var result = p1.Next(direction).ToString();
-        // assert
-        Assert.Equal(expected, result);
+        Point p = new Point(x, y);
+        Assert.Equal((expectedX, expectedY), (p.X, p.Y));
     }
 
-    
     [Theory]
-    [InlineData(1, 1, Direction.Up, 2, 2)]
-    [InlineData(1, 1, Direction.Right, 2, 0)]
-    [InlineData(1, 1, Direction.Down, 0, 0)]
-    [InlineData(1, 1, Direction.Left, 0, 2)]
-    public void NextDiagonal_ShouldReturnValidPoint(int startingX, int startingY, Direction direction, int expectedX, int expectedY)
+    [InlineData(0, 0, Direction.Up, 0, 1)]
+    [InlineData(0, 0, Direction.Down, 0, -1)]
+    [InlineData(0, 0, Direction.Left, -1, 0)]
+    [InlineData(0, 0, Direction.Right, 1, 0)]
+    public void Next_GivesNextPointCorrectly(int x, int y, Direction d, int eX, int eY)
     {
-        // arrange
-        var expected = new Point(expectedX, expectedY);
-        var p1 = new Point(startingX, startingY);
-        // act
-        var result = p1.NextDiagonal(direction);
-        // assert
-        Assert.Equal(expected, result);
+        Point p = new Point(x, y);
+        Point n = p.Next(d);
+        Assert.Equal((eX, eY), (n.X, n.Y));
+    }
+
+    [Theory]
+    [InlineData(0, 0, Direction.Up, 1, 1)]
+    [InlineData(0, 0, Direction.Down, -1, -1)]
+    [InlineData(0, 0, Direction.Left, -1, 1)]
+    [InlineData(0, 0, Direction.Right, 1, -1)]
+    public void NextDiagonal_GivesNextPointCorrectly(int x, int y, Direction d, int eX, int eY)
+    {
+        Point p = new Point(x, y);
+        Point n = p.NextDiagonal(d);
+        Assert.Equal((eX, eY), (n.X, n.Y));
     }
 }

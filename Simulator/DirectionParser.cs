@@ -1,26 +1,63 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simulator;
+
 public static class DirectionParser
 {
-    public static List<Direction> Parse(string input)
+    public static List<Direction> Parse(string dirs)
     {
-        var directions = new List<Direction>();
-
-        foreach (char c in input)
+        //int counter = 0;
+        List<Direction> directions = new();
+        foreach (char character in dirs)
         {
-            switch (char.ToUpper(c))
+            char letter = Char.ToUpper(character);
+            if (letter == 'U')
             {
-                case 'U': directions.Add(Direction.Up); break;
-                case 'R': directions.Add(Direction.Right); break;
-                case 'D': directions.Add(Direction.Down); break;
-                case 'L': directions.Add(Direction.Left); break;
+                //counter++;
+                directions.Add(Direction.Up);
+            }
+            if (letter == 'D')
+            {
+                //counter++;
+                directions.Add(Direction.Down);
+            }
+            if (letter == 'L')
+            {
+                //counter++;
+                directions.Add(Direction.Left);
+            }
+            if (letter == 'R')
+            {
+                //counter++;
+                directions.Add(Direction.Right);
             }
         }
+        /* Direction[] directions = new Direction[counter];
+        counter = 0;
+        foreach (char character in dirs)
+        {
+            char letter = Char.ToUpper(character);
+            if (letter == 'U')
+            {
+                directions[counter] = Direction.Up;
+                counter++;
+            }
+            if (letter == 'D')
+            {
+                directions[counter] = Direction.Down;
+                counter++;
+            }
+            if (letter == 'L')
+            {
+                directions[counter] = Direction.Left;
+                counter++;
+            }
+            if (letter == 'R')
+            {
+                directions[counter] = Direction.Right;
+                counter++;
+            }
+        }*/
         return directions;
     }
 }

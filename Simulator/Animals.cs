@@ -1,28 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Simulator.Maps;
 
 namespace Simulator;
-public class Animals
+
+public class Animals : IMappable
 {
-    // fields
-    private string description = "Unknown";
-    public required string Description 
+    public virtual string Symbol
     {
-        get => description;
-        init => description = Validator.Shortener(value, 3, 15, '#');
+        get => "A";
+    }
+    private string description = "Unknown";
+    public required string Description
+    {
+        get { return description; }
+        init
+        {
+            description = Validator.Shortener(value, 3, 15, '#');
+        }
     }
     public uint Size { get; set; } = 3;
     public virtual string Info
-        { get { return $"{Description} <{Size}>"; } }
+    {
+        get { return $"{Description} <{Size}>"; }
+    }
 
-    // constructors
+    public Map? AssignedMap { get; set; }
+    public Point Position { get; set; }
 
-    // methods
+    public void InitMapAndPosition(Map map, Point position)
+    {
+        AssignedMap = map;
+        Position = position;
+        AssignedMap.Add(this, position);
+    }
+
+    public virtual void Go(Direction direction)
+    {
+        if (AssignedMap != null)
+        {
+            Point from = Position;
+            Position = AssignedMap.Next(Position, direction);
+            AssignedMap.Move(this, from, Position);
+        }
+    }
+
     public override string ToString()
-        { return $"{GetType().Name.ToUpper()}: {Info}"; }
+    {
+        return $"{this.GetType().Name.ToUpper()}: {this.Info}";
+    }
 
 }
