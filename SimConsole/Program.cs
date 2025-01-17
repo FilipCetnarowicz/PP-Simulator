@@ -16,21 +16,36 @@ internal class Program
         MapVisualizer mapVisualizer = new(simulation.Map);
 
         Console.WriteLine("SIMULATION!");
-        Console.WriteLine("");
         Console.WriteLine("Starting positions:");
         mapVisualizer.Draw();
+        Console.WriteLine("Then:");
 
-        while (!simulation.Finished)
-        {
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-            simulation.Turn();
-            Console.WriteLine("");
-            Console.WriteLine($"Turn {simulation.turnIndex}");
-            Console.WriteLine($"{simulation.CurrentMappable} goes {simulation.CurrentMoveName}:");
-            mapVisualizer.Draw();
-        }
-        Console.WriteLine("");
-        Console.WriteLine("Simulation has finished!");
+        SimulationHistory simulationHistory = new(simulation);
+        LogVisulizer logVisualizer = new(simulationHistory);
+
+        logVisualizer.Draw(0);
+        logVisualizer.Draw(1);
+        logVisualizer.Draw(2);
+        logVisualizer.Draw(3);
+        logVisualizer.Draw(4);
+        logVisualizer.Draw(5);
+
+
+        //Console.WriteLine("");
+        //Console.WriteLine("Starting positions:");
+        //mapVisualizer.Draw();
+
+        //while (!simulation.Finished)
+        //{
+        //    Console.WriteLine("Press any key to continue...");
+        //    Console.ReadKey();
+        //    simulation.Turn();
+        //    Console.WriteLine("");
+        //    Console.WriteLine($"Turn {simulation.turnIndex}");
+        //    Console.WriteLine($"{simulation.CurrentMappable} goes {simulation.CurrentMoveName}:");
+        //    mapVisualizer.Draw();
+        //}
+        //Console.WriteLine("");
+        //Console.WriteLine("Simulation has finished!");
     }
 }
